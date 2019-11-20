@@ -11,7 +11,11 @@ class App extends React.Component {
 
   render() {
     return (
-      console.log('base html goes here');
+
+      <div>
+        <h1>SOMETHING ON PAGE</h1>
+      </div>
+
     )
   }
 }

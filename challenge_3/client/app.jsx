@@ -43,7 +43,27 @@ class App extends React.Component {
     console.log("PURCHASE CLICKED");
     this.setState({formNum: 0})
     // post request with all of the instances of state
-    // clear app state form_fields
+    console.log(this.state.form_fields);
+    this.addRecord(this.state.form_fields)
+  }
+
+  // post request
+  addRecord({name, email, password, line1, line2, city, state, zip, ccnum, expdate, cvv, billingzip}) {
+    axios.post('/', {
+      name,
+      email,
+      password,
+      line1,
+      line2,
+      city,
+      state,
+      zip,
+      ccnum: Number(ccnum),
+      expdate,
+      cvv: Number(cvv),
+      billingzip: Number(billingzip)
+    })
+    .catch((err) => console.log(err))
   }
 
   /* SET APP STATE HELPER */
@@ -54,7 +74,7 @@ class App extends React.Component {
       return { form_fields };
       }
     )
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   /* CONDITIONAL RENDER METHOD */
@@ -129,7 +149,7 @@ class Form1 extends React.Component {
     )
   }
 }
-
+// -------------------------------------- //
 class Form2 extends React.Component {
   constructor(props) {
     super(props)
@@ -156,7 +176,7 @@ class Form2 extends React.Component {
     )
   }
 }
-
+// ---------------------------------------- //
 class Form3 extends React.Component {
   constructor(props) {
     super(props)

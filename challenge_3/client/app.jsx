@@ -16,27 +16,28 @@ class App extends React.Component {
         city: '',
         state: '',
         zip: '',
-        ccnum: '',
+        ccnum: null,
         expdate: '',
-        cvv: '',
-        billingzip: ''
+        cvv: null,
+        billingzip: null
       }
     }
     this.clickCheckout = this.clickCheckout.bind(this);
     this.onClickNext = this.onClickNext.bind(this);
     this.onClickPurchase = this.onClickPurchase.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  /* CLICK HANDLERS */
   clickCheckout() {
     console.log("CHECKOUT CLICKED")
     this.setState({formNum: this.state.formNum + 1})
     console.log(this.state)
-    // create a new record in the database
   }
   onClickNext() {
     console.log("NEXT CLICKED")
     this.setState({formNum: this.state.formNum + 1})
     console.log(this.state)
-    // update state with values from individual form
   }
   onClickPurchase() {
     console.log("PURCHASE CLICKED");
@@ -44,6 +45,19 @@ class App extends React.Component {
     // post request with all of the instances of state
     // clear app state form_fields
   }
+
+  /* SET APP STATE HELPER */
+  handleChange(fieldName, value) {
+    this.setState(prevState => {
+      let form_fields = Object.assign ({}, prevState.form_fields)
+      form_fields[fieldName] = value;
+      return { form_fields };
+      }
+    )
+    console.log(this.state)
+  }
+
+  /* CONDITIONAL RENDER METHOD */
   render() {
     let button;
     let form;
@@ -52,13 +66,13 @@ class App extends React.Component {
       form = null;
     } else if (this.state.formNum === 1){
       button = <NextButton clickNext={this.onClickNext}/>
-      form = <Form1 />
+      form = <Form1 onChange={this.handleChange}/>
     } else if (this.state.formNum === 2) {
       button = <NextButton clickNext={this.onClickNext}/>
-      form = <Form2 />
+      form = <Form2 onChange={this.handleChange}/>
     } else if (this.state.formNum === 3) {
       button = <PurchaseButton clickPurchase={this.onClickPurchase}/>
-      form = <Form3 />
+      form = <Form3 onChange={this.handleChange}/>
     }
 
     return (
@@ -70,6 +84,8 @@ class App extends React.Component {
   }
 }
 
+//----------------------------------------//
+/* BUTTONS */
 var CheckoutButton = ({clickCheckout}) => (
   <div>
     <button onClick={clickCheckout}>CHECKOUT</button>
@@ -88,38 +104,84 @@ var PurchaseButton = ({clickPurchase}) => (
   </div>
 )
 
-var Form1 = (props) => (
-  <div>
-    <form>
-      <input type="text"></input><label>name</label>
-      <input type="text"></input><label>email</label>
-      <input type="text"></input><label>password</label>
-    </form>
-  </div>
-)
+/* FORM ELEMENTS */
+class Form1 extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
 
-var Form2 = (props) => (
-  <div>
-    <form>
-      <input type="text"></input><label>address line 1</label>
-      <input type="text"></input><label>address line 2</label>
-      <input type="text"></input><label>city</label>
-      <input type="text"></input><label>state</label>
-      <input type="text"></input><label>zip code</label>
-    </form>
-  </div>
-)
+  handleInputChange(e) {
+    this.props.onChange(e.target.name, e.target.value)
+  }
 
-var Form3 = (props) => (
-  <div>
-    <form>
-      <input type="text"></input><label>credit card number</label>
-      <input type="text"></input><label>expiration date</label>
-      <input type="text"></input><label>cvv</label>
-      <input type="text"></input><label>billing zip code</label>
-    </form>
-  </div>
-)
+  render() {
+    return (
+      <div>
+        <form>
+          <input type="text" name="name" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>name</label><br/>
+          <input type="text" name="email" value={this.state.email} onChange={(e) => this.handleInputChange(e)}></input><label>email</label><br/>
+          <input type="text" name="password" value={this.state.password} onChange={(e) => this.handleInputChange(e)}></input><label>password</label><br/>
+        </form>
+      </div>
+    )
+  }
+}
+
+class Form2 extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(e) {
+    this.props.onChange(e.target.name, e.target.value)
+  }
+
+  render() {
+    return (
+      <div>
+        <form>
+          <input type="text" name="line1" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>address line 1</label><br/>
+          <input type="text" name="line2" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>address line 2</label><br/>
+          <input type="text" name="city" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>city</label><br/>
+          <input type="text" name="state" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>state</label><br/>
+          <input type="text" name="zip" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>zip code</label><br/>
+        </form>
+      </div>
+    )
+  }
+}
+
+class Form3 extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(e) {
+    this.props.onChange(e.target.name, e.target.value)
+  }
+
+  render() {
+    return (
+      <div>
+        <form>
+          <input type="text" name="ccnum" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>credit card number</label><br/>
+          <input type="text" name="expdate" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>expiration date</label><br/>
+          <input type="text" name="cvv" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>cvv</label><br/>
+          <input type="text" name="billingzip" value={this.state.name} onChange={(e) => this.handleInputChange(e)}></input><label>billing zip code</label><br/>
+        </form>
+      </div>
+    )
+  }
+}
 
 // export default App;
 ReactDOM.render(<App />, document.getElementById('app'));

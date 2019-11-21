@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 // need to serve static client files to the server
-app.use(express.static(__dirname + '/compiled'));
+app.use(express.static('public'));
 
 // need get and post methods
 
